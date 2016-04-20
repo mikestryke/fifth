@@ -1,0 +1,9 @@
+<h1>Login:</h1>
+<form action='users/:id' method='post'>
+  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+  <p><input type='email' name='email' placeholder="Email" /></p>
+  <p><input type='password' name='password' placeholder="Password" /></p>
+  <p><input type='submit' value='Submit'></p>
+</form>
+
+<%= link_to 'Click here to register', new_user_path %>

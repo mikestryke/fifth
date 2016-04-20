@@ -1,0 +1,70 @@
+<style type="text/css">
+
+.create_secret, .secrets_liked{
+	width: 200px;
+	height: 400px;
+	border: 1px solid black;
+	overflow: scroll;
+	padding: 10px;
+	background-color: #00cccc;
+	display: inline-block;
+	margin-left: 10px;
+}
+</style>
+
+
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Welcome:</strong>
+  <%= link_to current_user.name, user_path(current_user) %> | <%= link_to 'Edit Profile', edit_user_path(@user) %> | <% if current_user %>
+<%= link_to 'Logout', :root %>
+<% end %>
+
+<p><strong><%= link_to 'All Secrets', secrets_path %></strong></p>
+<h2>Create Secret:</h2>
+<form action='/secrets' method='post'>
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden" />
+	<input type = 'hidden' name = "secret[user_id]" value="<%= @user.id %>">
+	<input type = 'text' name = "secret[description]"><br>
+	<input type='submit' value='Create' />
+</form>
+
+	<div class='create_secret'>
+		<strong><%= @user.name%> Created:</strong>
+		<% @secret.each do |x| %>
+			<p><%= x.description %></p>
+			<p><%= x.likes.count %> likes! </p>
+			<p><%= x.created_at.strftime("%b %d,  %Y %H:%M") %></p>
+		 	<% unless x.users_liked.include?(current_user)%>
+				<form action ='/likes' method='post'>
+					<input type ="hidden" name = "authenticity_token" value = "<%= form_authenticity_token %>">
+					<input type ='hidden' name='like' value ='<%= x.id%>'>
+					<input type ='Submit' value ='Like'>
+				</form>
+			<% else %>
+				<form action='/likes/<%=x.id%>' method='post'>
+					<input type='hidden' name='_method' value='delete'>
+					<input type ="hidden" name = "authenticity_token" value = "<%= form_authenticity_token %>">
+					<input type ='hidden' name='id' value ='<%= x.like%>'>
+					<input type ='submit' value='Unlike'>
+				</form>
+			<%end%>
+		   <% if current_user == x.user%>
+		        <td><%= link_to 'Delete Secret', x, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		   <%end%><hr>
+		<%end%>
+	</div>
+<div class='secrets_liked'>
+<strong><%= @user.name %> Liked:</strong>
+ <% @like.each do |y| %>
+ <p><%= link_to y.secret.user.name, user_path(y.secret.user.id) %></p>
+ <p><%= link_to y.secret.description  %></p>
+ <p><%= y.secret.likes.count%> likes!</p><hr>
+
+ <%end%>
+</div>
+<hr>
+
+

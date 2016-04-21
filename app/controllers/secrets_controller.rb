@@ -1,6 +1,6 @@
 class SecretsController < ApplicationController
   before_action :set_secret, only: [:show, :edit, :update, :destroy]
-  before_action :require_login, only: [:index, :create, :destroy]
+  # before_action :require_login, only: [:index, :create, :destroy]
   before_action :current_user, only: [:index, :create, :update, :destroy]
 
   # GET /secrets

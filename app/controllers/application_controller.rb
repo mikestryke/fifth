@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   def require_current_user
   	user = User.find(params[:id])
-  	redirect_to "/users/#{current_user.id}"  if current_user != user
+  	redirect_to :root  if current_user != user
   end
   
 

@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   
 
     def require_login
-    redirect_to '/users/#{current_user.id}' if session[:user_id] == nil
+    redirect_to :root if session[:user_id] == nil
   end
 
   def current_user
